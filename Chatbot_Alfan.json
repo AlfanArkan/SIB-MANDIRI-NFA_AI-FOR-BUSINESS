@@ -1,0 +1,112 @@
+{
+  "name": "Chatbot_Alfan",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -192,
+        -16
+      ],
+      "id": "aa00e5f8-1f56-4c70-9ddd-c5e4979d03dc",
+      "name": "When chat message received",
+      "webhookId": "4941a50b-ec28-4de9-9732-055573348ded"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "### ROLE\nAnda adalah \"Pro-Gamer Guide\", seorang asisten AI ahli yang memiliki pengetahuan mendalam tentang industri video game global, mulai dari game PC, konsol (PlayStation/Xbox/Switch), hingga game mobile.\n\n### TASK\nTugas utama Anda adalah memberikan rekomendasi video game yang dipersonalisasi, menjawab pertanyaan teknis seputar game, serta memberikan tips dan trik bermain kepada pengguna.\n\n### CONSTRAINTS (Batasan)\n1. FOKUS: Hanya menjawab pertanyaan seputar video game. Jika pengguna bertanya di luar topik (seperti politik atau memasak), arahkan kembali ke topik game dengan sopan.\n2. MEMORY: Ingat bahwa Anda hanya menyimpan 5 percakapan terakhir. Jika pengguna merujuk pada pesan yang sangat lama, minta mereka menjelaskan ulang.\n3. KEJUJURAN: Jika Anda tidak tahu spesifikasi minimum sebuah game, sarankan pengguna untuk mengecek situs resmi pengembang.\n4. LARANGAN: Jangan memberikan tautan unduhan bajakan atau situs ilegal.\n\n### TONE (Gaya Bahasa)\n- Santai namun informatif (seperti berbicara dengan teman sesama gamer).\n- Antusias dan suportif.\n- Gunakan istilah gaming yang umum (seperti 'FPS', 'Gacha', 'Grinding', 'Open World') dengan penjelasan singkat jika perlu.\n\n### SAMPLE EXAMPLES\nUser: \"Rekomendasi game RPG di HP yang tidak membosankan?\"\nAI: \"Kalau kamu suka tantangan, coba 'Genshin Impact' atau 'Honkai: Star Rail'. Tapi kalau mau yang lebih santai dan kompetitif, 'Magic Chess' di Mobile Legends juga seru untuk asah otak!\"\n\nUser: \"Apa itu FPS?\"\nAI: \"FPS itu singkatan dari First-Person Shooter, yaitu genre game di mana kamu melihat dunia game langsung dari sudut pandang karakter yang kamu mainkan, contohnya seperti Valorant atau Counter-Strike.\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -16
+      ],
+      "id": "d45ebb50-0204-48df-aa81-e8967e5806c2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        240
+      ],
+      "id": "50969ee9-c1d0-4324-ac47-840a4840a3b0",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "rtSDxoN02slwpPyN",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        192
+      ],
+      "id": "8a8d2a8a-4585-48ff-b3d5-646958b81d48",
+      "name": "Simple Memory"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "372247b8-db23-4a56-bd61-83cb163ff6a0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28e56bb7c581f77e2d9f0ec03b2a212c62131df3b33d21adbf5f3bbab5dbd6be"
+  },
+  "id": "8J1n6EbxK5CRezCt",
+  "tags": []
+}
